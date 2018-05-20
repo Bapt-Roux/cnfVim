@@ -1,0 +1,2 @@
+# cnfVim
+Neovim configuration
