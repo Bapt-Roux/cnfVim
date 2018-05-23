@@ -1,3 +1,6 @@
 [submodule "layers/dein.vim"]
 	path = layers/dein.vim
 	url = https://github.com/Shougo/dein.vim.git
+[submodule "core/dein.vim"]
+	path = core/dein.vim
+	url = https://github.com/Shougo/dein.vim.git
