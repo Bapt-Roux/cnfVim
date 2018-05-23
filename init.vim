@@ -119,8 +119,8 @@ let g:cnf_nvim = {}
 " TBC name to store vars
 let mapleader = ' '
 let g:mapleader = ' '
-let maplocaleader = ' '
-let g:maplocaleader = ' '
+let maplocaleader = ','
+let g:maplocaleader = ','
 let g:cnf_nvim.glbLeader = ' '
 let g:cnf_nvim.localLeader = ','
 let g:lmap = {} " dict for leaderKey mappings

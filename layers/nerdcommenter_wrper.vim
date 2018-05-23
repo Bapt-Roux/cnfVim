@@ -16,6 +16,7 @@ let g:NERDTrimTrailingWhitespace = 1
 " }}}
 
 " Custom remap {{{
+let g:lmap.c = {'name':'nerdCommenter'}
 " }}}
 
 augroup nerdcommenterAutocmd "{{{
