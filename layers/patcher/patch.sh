@@ -10,11 +10,11 @@ cache_path=$VIMPATH/bundle/.cache/init.vim/.dein/autoload/airline/extensions/tab
 mkdir -p  $repo_path
 mkdir -p  $cache_path
 # tabnr
-custTabnr=core/patcher/customTabnr.vim
+custTabnr=layers/patcher/customTabnr.vim
 cp $VIMPATH/$custTabnr $repo_path
 cp $VIMPATH/$custTabnr $cache_path
 
 # tabName
-custTabName=core/patcher/customTabName.vim
+custTabName=layers/patcher/customTabName.vim
 cp $VIMPATH/$custTabName $repo_path
 cp $VIMPATH/$custTabName $cache_path
