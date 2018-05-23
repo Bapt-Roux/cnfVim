@@ -129,7 +129,7 @@ let g:llmap = {}
 
 " Users knobs {{{
 let g:cnf_nvim.default_indent = 2
-let g:cnf_nvim.colorscheme = 'solarized' "'spaceVim' 'molokai' 'solarized'
+let g:cnf_nvim.colorscheme = 'spaceVim' "'spaceVim' 'molokai' 'solarized'
 let g:cnf_nvim.force256 = 0
 let g:cnf_nvim.termtrans = 0
 let g:cnf_nvim.max_column = 80

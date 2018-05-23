@@ -3,7 +3,11 @@
 "}}}
 
 " global layers variables {{{
+let g:usrTabName = {}
+let g:prvTab = 1
+let g:curTab = 1
 " }}}
+
 " Custom functions {{{
 function! tabsMgmt#AskUser(dspTxt) "{{{
   call inputsave()
@@ -12,45 +16,59 @@ function! tabsMgmt#AskUser(dspTxt) "{{{
   return a:userInput
 endfunction "}}}
 
-function! tabsMgmt#RegisterTab() "{{{
+function! tabsMgmt#RegisterTab(tabName) "{{{
   let a:tabDescr = {}
   "" tabs uid
   "let a:tabDescriptor['uid'] = TODO
   " tabs name
-  let a:tabDescr['name'] = tabsMgmt#AskUser('Enter tab name: ')
-  " tabs position
-  let a:tabDescr['pos'] = tabpagenr()
+  if a:tabName ==# ''
+    let a:tabDescr['name'] = tabsMgmt#AskUser('Enter tab name: ')
+  else
+    let a:tabDescr['name'] = a:tabName
+  endif
   " tabs zoom status
   let a:tabDescr['zoom'] = 0
   return a:tabDescr
 endfunction " }}}
 
 function! tabsMgmt#FirstTab_hook() "{{{
-  let t:tabDescriptor = {}
-  "" tabs uid
-  "let t:tabDescriptor['uid'] = TODO
-  " tabs name
-  let t:tabDescriptor['name'] = "Sandbox"
-  " tabs position
-  let t:tabDescriptor['pos'] = tabpagenr()
-  " tabs zoom status
-  let t:tabDescriptor['zoom'] = 0
-
-
+  let t:tabDescriptor = tabsMgmt#RegisterTab('Sandbox')
+  "update usrTabName
+  let g:usrTabName[tabpagenr()] = t:tabDescriptor['name']
 endfunction " }}}
 
+function! tabsMgmt#RenameTab() "{{{
+  let t:tabDescriptor['name'] = tabsMgmt#AskUser('Rename tab: ')
+  "update usrTabName
+  let g:usrTabName[tabpagenr()] = t:tabDescriptor['name']
+endfunction "}}}
+
+function! tabsMgmt#ToggleTab() "{{{
+  execute 'tabnext ' . g:prvTab
+endfunction "}}}
+
+
 function! tabsMgmt#TabNew_hook() "{{{
-  "update pos
-  let t:tabDescriptor = tabsMgmt#RegisterTab()
+  let t:tabDescriptor = tabsMgmt#RegisterTab('')
 endfunction " }}}
 
 function! tabsMgmt#TabEnter_hook() "{{{
-  "update pos
-  let t:tabDescriptor['pos'] = tabpagenr()
+  "update usrTabName
+  let g:usrTabName[tabpagenr()] = t:tabDescriptor['name']
+  "update history
+  let g:prvTab = g:curTab
+  let g:curTab = tabpagenr()
+endfunction " }}}
+
+function! tabsMgmt#TabClosed_hook() "{{{
 endfunction " }}}
 " }}}
 
 " Custom remap {{{
+  let g:lmap.l = { 'name' : '+layouts'}
+  let g:lmap.l.r = ['call tabsMgmt#RenameTab()', 'rename-tab']
+  let g:lmap.l.n = ['tabnew', 'new-tab']
+  let g:lmap.l['<C-I>'] = ['call tabsMgmt#ToggleTab()', 'toggle-tab']
 " }}}
 
 augroup tabsMgmtAutocmd "{{{
@@ -58,6 +76,7 @@ augroup tabsMgmtAutocmd "{{{
   autocmd VimEnter *  call tabsMgmt#FirstTab_hook()
   autocmd TabNew *  call tabsMgmt#TabNew_hook()
   autocmd TabEnter * call tabsMgmt#TabEnter_hook()
+  autocmd TabClosed * call tabsMgmt#TabClosed_hook()
 augroup END
 " }}}
 " }}}
