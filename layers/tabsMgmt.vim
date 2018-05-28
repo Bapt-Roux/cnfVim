@@ -9,25 +9,22 @@ let g:curTab = 1
 " }}}
 
 " Custom functions {{{
-function! tabsMgmt#AskUser(dspTxt) "{{{
-  call inputsave()
-  let a:userInput = input(a:dspTxt)
-  call inputrestore()
-  return a:userInput
-endfunction "}}}
-
 function! tabsMgmt#RegisterTab(tabName) "{{{
   let a:tabDescr = {}
   "" tabs uid
   "let a:tabDescriptor['uid'] = TODO
   " tabs name
   if a:tabName ==# ''
-    let a:tabDescr['name'] = tabsMgmt#AskUser('Enter tab name: ')
+    let a:tabDescr['name'] = init#AskUser('Enter tab name: ')
   else
     let a:tabDescr['name'] = a:tabName
   endif
   " tabs zoom status
   let a:tabDescr['zoom'] = 0
+  "tabs buffers list
+  let a:tabDescr['buffers'] = []
+  "tabs terminals list
+  let a:tabDescr['terms'] = []
   return a:tabDescr
 endfunction " }}}
 
@@ -38,13 +35,22 @@ function! tabsMgmt#FirstTab_hook() "{{{
 endfunction " }}}
 
 function! tabsMgmt#RenameTab() "{{{
-  let t:tabDescriptor['name'] = tabsMgmt#AskUser('Rename tab: ')
+  let t:tabDescriptor['name'] = init#AskUser('Rename tab: ')
   "update usrTabName
   let g:usrTabName[tabpagenr()] = t:tabDescriptor['name']
 endfunction "}}}
 
 function! tabsMgmt#ToggleTab() "{{{
   execute 'tabnext ' . g:prvTab
+endfunction "}}}
+
+function! tabsMgmt#OpenTabTerm() "{{{
+  let luid = reltime()[0]
+  let termName = 'term://'.t:tabDescriptor['name'].'_'.luid
+  execute 'terminal'
+  execute 'file term://'. termName
+  execute 'stopinsert'
+  let t:tabDescriptor['terms'] += [{'name':termName, 'bufid': bufnr('%')}]
 endfunction "}}}
 
 
@@ -65,10 +71,11 @@ endfunction " }}}
 " }}}
 
 " Custom remap {{{
-  let g:lmap.l = { 'name' : '+layouts'}
-  let g:lmap.l.r = ['call tabsMgmt#RenameTab()', 'rename-tab']
-  let g:lmap.l.n = ['tabnew', 'new-tab']
-  let g:lmap.l['<C-I>'] = ['call tabsMgmt#ToggleTab()', 'toggle-tab']
+  let g:lmap.t = { 'name' : '+Tabs'}
+  let g:lmap.t.r = ['call tabsMgmt#RenameTab()', 'rename-tab']
+  let g:lmap.t.n = ['tabnew', 'new-tab']
+  let g:lmap.t.t = ['call tabsMgmt#OpenTabTerm()', 'open-term']
+  let g:lmap.t['<C-I>'] = ['call tabsMgmt#ToggleTab()', 'toggle-tab']
 " }}}
 
 augroup tabsMgmtAutocmd "{{{

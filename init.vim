@@ -105,6 +105,14 @@ function! init#DfltConfig() "{{{ TBC clean useless vars
   endif
   "}}}
 endfunction "}}}
+
+function! init#AskUser(dspTxt) "{{{
+  call inputsave()
+  let a:userInput = input(a:dspTxt)
+  call inputrestore()
+  return a:userInput
+endfunction "}}}
+
 "}}}
 
 " Init path configuration {{{
@@ -144,6 +152,7 @@ let g:cnf_nvim.layers = [
     \ 'tabsMgmt',
     \ 'windowsMgmt',
     \ 'buffersMgmt',
+    \ 'sessionsMgmt',
     \'nerdcommenter_wrper']
 "}}}
 " Extra plugins {{{
