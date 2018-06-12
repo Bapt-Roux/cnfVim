@@ -28,11 +28,17 @@ function! tabsMgmt#RegisterTab(tabName) "{{{
   return a:tabDescr
 endfunction " }}}
 
-function! tabsMgmt#FirstTab_hook() "{{{
-  let t:tabDescriptor = tabsMgmt#RegisterTab('Sandbox')
-  "update usrTabName
-  let g:usrTabName[tabpagenr()] = t:tabDescriptor['name']
-endfunction " }}}
+function! tabsMgmt#ToggleZoom() "{{{
+  if t:tabDescriptor['zoom'] == 1
+    exec t:zoom_restoreWinCmd
+    let t:tabDescriptor['zoom'] = 0
+  else
+    let t:zoom_restoreWinCmd = winrestcmd()
+    resize
+    vertical resize
+    let t:tabDescriptor['zoom'] = 1
+  endif
+endfunction "}}}
 
 function! tabsMgmt#RenameTab() "{{{
   let t:tabDescriptor['name'] = init#AskUser('Rename tab: ')
@@ -53,6 +59,11 @@ function! tabsMgmt#OpenTabTerm() "{{{
   let t:tabDescriptor['terms'] += [{'name':termName, 'bufid': bufnr('%')}]
 endfunction "}}}
 
+function! tabsMgmt#FirstTab_hook() "{{{
+  let t:tabDescriptor = tabsMgmt#RegisterTab('Sandbox')
+  "update usrTabName
+  let g:usrTabName[tabpagenr()] = t:tabDescriptor['name']
+endfunction " }}}
 
 function! tabsMgmt#TabNew_hook() "{{{
   let t:tabDescriptor = tabsMgmt#RegisterTab('')
@@ -71,10 +82,13 @@ endfunction " }}}
 " }}}
 
 " Custom remap {{{
+  command! TabsZoomToggle call tabsMgmt#ToggleZoom()
+  nnoremap <C-z> :TabsZoomToggle <CR>
   let g:lmap.t = { 'name' : '+Tabs'}
   let g:lmap.t.r = ['call tabsMgmt#RenameTab()', 'rename-tab']
   let g:lmap.t.n = ['tabnew', 'new-tab']
   let g:lmap.t.t = ['call tabsMgmt#OpenTabTerm()', 'open-term']
+  let g:lmap.t.z = ['call tabsMgmt#ToggleZoom()', 'zoom-toggle']
   let g:lmap.t['<C-I>'] = ['call tabsMgmt#ToggleTab()', 'toggle-tab']
 " }}}
 
