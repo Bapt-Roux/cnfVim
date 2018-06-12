@@ -151,11 +151,12 @@ let g:cnf_nvim.layers = [
     \ 'uiTheme',
     \ 'tabsMgmt',
     \ 'bfrWinMgmt',
-    \ 'sessionsMgmt',
+    \ 'statusLine',
     \'nerdcommenter_wrper']
 "}}}
 " Extra plugins {{{
-let g:cnf_nvim.extra_plugins = []
+let g:cnf_nvim.extra_plugins = [
+  \'tpope/vim-fugitive']
 " }}}
 " }}}
 
@@ -344,13 +345,13 @@ call init#DfltConfig()
 " }}}
 
 " Layers loading and extra-plugins loading {{{
-call init#SourceLayers(g:nvim_dir . g:nvim_path_separator . 'layers', g:cnf_nvim.layers)
 " Load extra plugins
 if exists('g:cnf_nvim.extra_plugins')
   for plugin in g:cnf_nvim.extra_plugins
     call dein#add(plugin)
   endfor
 endif
+call init#SourceLayers(g:nvim_dir . g:nvim_path_separator . 'layers', g:cnf_nvim.layers)
 "}}}
 
 " endConfig Hook {{{
