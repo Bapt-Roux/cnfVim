@@ -150,8 +150,7 @@ let g:cnf_nvim.nerd_fonts = 0
 let g:cnf_nvim.layers = [ 
     \ 'uiTheme',
     \ 'tabsMgmt',
-    \ 'windowsMgmt',
-    \ 'buffersMgmt',
+    \ 'bfrWinMgmt',
     \ 'sessionsMgmt',
     \'nerdcommenter_wrper']
 "}}}
