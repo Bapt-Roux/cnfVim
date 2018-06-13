@@ -4,9 +4,13 @@ call dein#add('itchyny/lightline.vim')
 "}}}
 
 " Custom functions {{{
+function! statusLine#tabName(nr)
+  return g:usrTabName[a:nr]
+endfunction
+
 " }}}
 
-" Custom layout {{{
+" Statusline {{{
 let g:lightline = {
   \   'colorscheme': 'powerline',
   \   'active': {
@@ -29,11 +33,27 @@ let g:lightline.separator = {
 let g:lightline.subseparator = {
   \   'left': '', 'right': '' 
   \}
+" }}}
 
+" Tabline {{{
 let g:lightline.tabline = {
   \   'left': [ ['tabs'] ],
   \   'right': [ ['close'] ]
   \ }
+
+let g:lightline.tab = {
+  \ 'active': [ 'tabnum', 'tabname', 'filename', 'modified' ],
+  \ 'inactive': [ 'tabnum', 'tabname', 'modified' ] 
+  \ }
+
+let g:lightline.tab_component_function = {
+  \ 'filename': 'lightline#tab#filename',
+  \ 'modified': 'lightline#tab#modified',
+  \ 'readonly': 'lightline#tab#readonly',
+  \ 'tabnum': 'lightline#tab#tabnum',
+  \ 'tabname': 'statusLine#tabName' 
+  \ }
+
 set showtabline=2  " Show tabline
 set guioptions-=e  " Don't use GUI tabline
 " }}}
