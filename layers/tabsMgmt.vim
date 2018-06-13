@@ -30,10 +30,10 @@ endfunction " }}}
 
 function! tabsMgmt#ToggleZoom() "{{{
   if t:tabDescriptor['zoom'] == 1
-    exec t:zoom_restoreWinCmd
+    exec t:zoom_winrestcmd
     let t:tabDescriptor['zoom'] = 0
   else
-    let t:zoom_restoreWinCmd = winrestcmd()
+    let t:zoom_winrestcmd = winrestcmd()
     resize
     vertical resize
     let t:tabDescriptor['zoom'] = 1

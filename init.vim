@@ -230,6 +230,9 @@ function! init#AfterAll_hook()
   set wildignore+=.ropeproject/,__pycache__/,venv/,*.min.*,images/,img/,fonts/
   set wildignorecase
 
+  " Recursive search
+  set path+=**
+
   " set splitbelow
   " set splitright
 
