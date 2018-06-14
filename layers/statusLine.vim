@@ -5,9 +5,12 @@ call dein#add('itchyny/lightline.vim')
 
 " Custom functions {{{
 function! statusLine#tabName(nr)
-  return g:usrTabName[a:nr]
+  if has_key(g:usrTabName, a:nr)
+    return g:usrTabName[a:nr]
+  else
+    return ""
+  endif
 endfunction
-
 " }}}
 
 " Statusline {{{
@@ -15,14 +18,16 @@ let g:lightline = {
   \   'colorscheme': 'powerline',
   \   'active': {
   \     'left':[ [ 'mode', 'paste' ],
-  \              [ 'gitbranch', 'readonly', 'filename', 'modified' ]
+  \              [ 'gitbranch', 'readonly', 'relativepath', 'altfilename', 'modified' ]
   \     ]
   \   },
   \   'component': {
   \     'lineinfo': ' %3l:%-2v',
+  \     'altfilename': '%{expand(@#)}',
   \   },
   \   'component_function': {
   \     'gitbranch': 'fugitive#head',
+  \     'pathname': 'statusLine#pathName',
   \   }
   \ }
 
@@ -51,7 +56,7 @@ let g:lightline.tab_component_function = {
   \ 'modified': 'lightline#tab#modified',
   \ 'readonly': 'lightline#tab#readonly',
   \ 'tabnum': 'lightline#tab#tabnum',
-  \ 'tabname': 'statusLine#tabName' 
+  \ 'tabname': 'statusLine#tabName',
   \ }
 
 set showtabline=2  " Show tabline
