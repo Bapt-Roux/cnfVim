@@ -23,7 +23,7 @@ let g:lightline = {
   \   },
   \   'component': {
   \     'lineinfo': ' %3l:%-2v',
-  \     'altfilename': '%{expand(@#)}',
+  \     'altfilename': '[%{expand(expand("#:t"))}]',
   \   },
   \   'component_function': {
   \     'gitbranch': 'fugitive#head',

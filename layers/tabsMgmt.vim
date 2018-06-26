@@ -84,6 +84,8 @@ endfunction " }}}
 " Custom remap {{{
   command! TabsZoomToggle call tabsMgmt#ToggleZoom()
   nnoremap <C-z> :TabsZoomToggle <CR>
+  command! TabsToggle call tabsMgmt#ToggleTab()
+  nnoremap g<C-I> :TabsToggle <CR>
   let g:lmap.t = { 'name' : '+Tabs'}
   let g:lmap.t.r = ['call tabsMgmt#RenameTab()', 'rename-tab']
   let g:lmap.t.n = ['tabnew', 'new-tab']
