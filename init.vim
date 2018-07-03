@@ -13,31 +13,9 @@ function! init#NvimGetCacheDir(suffix) "{{{
   return resolve(expand(g:cache_dir . g:nvim_path_separator . a:suffix))
 endfunction "}}}
 
-function! init#NvimPreserve(command) "{{{
-  " preparation: save last search and cursor position
-  let l:_s = @/
-  let l:l = line(".")
-  let l:c = col(".")
-  " do the business
-  execute a:command
-  " clean up: restore previous search history, and cursor position
-  let @/ = l:_s
-  call cursor(l:l, l:c)
-endfunction "}}}
-
-function! init#NvimStripTrailingWhitespace() "{{{
-  call NvimPreserve("%s/\\s\\+$//e")
-endfunction "}}}
-
 function! init#EnsureExists(path) "{{{
   if !isdirectory(expand(a:path))
     call mkdir(expand(a:path))
-  endif
-endfunction "}}}
-
-function! init#InsertIfNotExists(map, key, value) "{{{
-  if !has_key(a:map, a:key)
-    let a:map[a:key] = a:value
   endif
 endfunction "}}}
 
@@ -72,39 +50,6 @@ function! init#LeaderDsp() " {{{
       \ substitute(g:leaderGuide#displayname, '^<SID>', '', '')
 endfunction
 " }}}
-function! init#DfltConfig() "{{{ TBC clean useless vars
-  " default settings {{{
-  " core
-  call init#InsertIfNotExists(g:cnf_nvim, 'default_indent', 2)
-  call init#InsertIfNotExists(g:cnf_nvim, 'bin_dir', '')
-  call init#InsertIfNotExists(g:cnf_nvim, 'cscopeprg', 'gtags-cscope')
-  " plugins
-  call init#InsertIfNotExists(g:cnf_nvim, 'completion_plugin', 'deoplete')
-  call init#InsertIfNotExists(g:cnf_nvim, 'syntaxcheck_plugin', 'ale')
-  call init#InsertIfNotExists(g:cnf_nvim, 'explorer_plugin', 'nerdtree')
-  call init#InsertIfNotExists(g:cnf_nvim, 'statusline_plugin', 'airline')
-  call init#InsertIfNotExists(g:cnf_nvim, 'fonts_plugin', 'none')
-
-  " user interface
-  call init#InsertIfNotExists(g:cnf_nvim, 'colorscheme', 'space-vim-dark')
-  call init#InsertIfNotExists(g:cnf_nvim, 'force256', 0)
-  call init#InsertIfNotExists(g:cnf_nvim, 'termtrans', 0)
-  call init#InsertIfNotExists(g:cnf_nvim, 'enable_cursorcolumn', 0)
-  call init#InsertIfNotExists(g:cnf_nvim, 'max_column', 80)
-  call init#InsertIfNotExists(g:cnf_nvim, 'nerd_fonts', 0)
-  call init#InsertIfNotExists(g:cnf_nvim, 'powerline_fonts', 0)
-
-  " layers
-  if !exists('g:cnf_nvim.layers')
-    let g:cnf_nvim.layers = []
-  endif
-
-  " additional plugins
-  if !exists('g:cnf_nvim.enabled_plugins')
-    let g:cnf_nvim.enabled_plugins = []
-  endif
-  "}}}
-endfunction "}}}
 
 function! init#AskUser(dspTxt) "{{{
   call inputsave()
@@ -121,16 +66,12 @@ let g:nvim_dir= '~' . g:nvim_path_separator . '.cnfVim'
 let g:cache_dir = g:nvim_dir . g:nvim_path_separator . 'cache'
 " }}}
 
-" Submodule configuration {{{
+" Base configuration {{{
 let g:cnf_nvim = {}
 " Leader keys {{{
 " TBC name to store vars
-let mapleader = ' '
 let g:mapleader = ' '
-let maplocaleader = ','
-let g:maplocaleader = ','
-let g:cnf_nvim.glbLeader = ' '
-let g:cnf_nvim.localLeader = ','
+let maplocalleader = ','
 let g:lmap = {} " dict for leaderKey mappings
 let g:llmap = {}
 " }}}
@@ -146,27 +87,23 @@ let g:cnf_nvim.powerline_fonts = 0
 let g:cnf_nvim.nerd_fonts = 0
 " }}}
 
-" Layers {{{
 let g:cnf_nvim.layers = [ 
     \ 'uiTheme',
     \ 'tabsMgmt',
     \ 'bfrWinMgmt',
     \ 'statusLine',
     \'nerdcommenter_wrper']
-"}}}
-" Extra plugins {{{
+
 let g:cnf_nvim.extra_plugins = [
   \'tpope/vim-fugitive']
-" }}}
-" }}}
+  " \'tpope/vim-commentary',
+"}}}
 
 " Function hooks to tweak startup process {{{
-" User hook beforeAll load {{{
-function! init#BeforeAll_hook()
+function! init#BeforeAll_hook() "{{{
 endfunction "}}}
 
-" User hook after all startup {{{
-function! init#AfterAll_hook()
+function! init#AfterAll_hook() "{{{
 " Global configuration {{{
   " smash escape {{{
   inoremap jk <Esc>
@@ -174,7 +111,8 @@ function! init#AfterAll_hook()
   " escap and smash escape in terminal emulator
   tnoremap jk <C-\><C-n>
   tnoremap kj <C-\><C-n>
-  tnoremap <Esc> <C-\><C-n>
+  " tnoremap <Esc> <C-\><C-n> "disable it for use of bash vi mode in nvim terminal
+  " emulator
   " }}}
   "timeout
   set timeoutlen=300  " mapping timeout
@@ -310,7 +248,6 @@ endfunction " }}}
 """ DO NOT EDIT {{{
 " PreCore Hook  and core components loading{{{
 call init#BeforeAll_hook()
-call init#DfltConfig()
 "}}}
 
 " Core configuration load {{{
@@ -366,7 +303,6 @@ endif
 autocmd VimEnter * call dein#call_hook('post_source')
 "}}}
 "}}}
-
 "}}}
 " vim: fdm=marker ts=2 sts=2 sw=2 fdl=0
 

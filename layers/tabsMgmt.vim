@@ -59,6 +59,26 @@ function! tabsMgmt#OpenTabTerm() "{{{
   let t:tabDescriptor['terms'] += [{'name':termName, 'bufid': bufnr('%')}]
 endfunction "}}}
 
+function! tabsMgmt#UpdtTabName() "{{{
+  "update usrTabName
+  let g:usrTabName[tabpagenr()] = t:tabDescriptor['name']
+  "update history
+  let g:prvTab = g:curTab
+  let g:curTab = tabpagenr()
+endfunction "}}}
+
+function! tabsMgmt#UpdtAllTab() "{{{
+  " Store position
+  let s:prvTabStored = g:prvTab
+  let s:curTabStored = tabpagenr()
+  "Update name 
+  execute 'tabdo call tabsMgmt#UpdtTabName()'
+  " Restore position and history
+  execute 'tabnext ' . s:curTabStored
+  let g:curTab = s:curTabStored
+  let g:prvTab = s:prvTabStored
+endfunction "}}}
+
 function! tabsMgmt#FirstTab_hook() "{{{
   let t:tabDescriptor = tabsMgmt#RegisterTab('Sandbox')
   "update usrTabName
@@ -70,11 +90,7 @@ function! tabsMgmt#TabNew_hook() "{{{
 endfunction " }}}
 
 function! tabsMgmt#TabEnter_hook() "{{{
-  "update usrTabName
-  let g:usrTabName[tabpagenr()] = t:tabDescriptor['name']
-  "update history
-  let g:prvTab = g:curTab
-  let g:curTab = tabpagenr()
+  call tabsMgmt#UpdtTabName()
 endfunction " }}}
 
 function! tabsMgmt#TabClosed_hook() "{{{
@@ -88,6 +104,7 @@ endfunction " }}}
   nnoremap g<C-I> :TabsToggle <CR>
   let g:lmap.t = { 'name' : '+Tabs'}
   let g:lmap.t.r = ['call tabsMgmt#RenameTab()', 'rename-tab']
+  let g:lmap.t.u = ['call tabsMgmt#UpdtAllTab()', 'updtAll-tab']
   let g:lmap.t.n = ['tabnew', 'new-tab']
   let g:lmap.t.t = ['call tabsMgmt#OpenTabTerm()', 'open-term']
   let g:lmap.t.z = ['call tabsMgmt#ToggleZoom()', 'zoom-toggle']

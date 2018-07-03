@@ -19,6 +19,22 @@ function! bfrWinMgmt#SetNumberDisplay() "{{{
     setlocal relativenumber
   endif
 endfunction "}}}
+
+function! bfrWinMgmt#Preserve(command) "{{{
+  " preparation: save last search and cursor position
+  let l:_s = @/
+  let l:l = line(".")
+  let l:c = col(".")
+  " do the business
+  execute a:command
+  " clean up: restore previous search history, and cursor position
+  let @/ = l:_s
+  call cursor(l:l, l:c)
+endfunction "}}}
+
+function! bfrWinMgmt#StripTrailingWhitespace() "{{{
+  call NvimPreserve("%s/\\s\\+$//e")
+endfunction "}}}
 " }}}
 
 " Custom remap {{{
