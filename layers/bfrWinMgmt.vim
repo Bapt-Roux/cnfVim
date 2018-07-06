@@ -1,6 +1,8 @@
 " Layer for  buffers and windows Mgmt {{{
 " External plugins load {{{
 call dein#add('Shougo/denite.nvim')
+call dein#add('majutsushi/tagbar')
+call dein#add('godlygeek/tabular')
 "}}}
 
 " Custom functions {{{
@@ -38,6 +40,13 @@ endfunction "}}}
 " }}}
 
 " Custom remap {{{
+  let g:lmap.b        = { 'name' : '+Bfr'}
+  let g:lmap.b.t      = ['TagbarToggle', 'tagbar-toggle']
+  let g:lmap.b.a      = { 'name' : '+Align'}
+  let g:lmap.b.a['|'] = [ 'Tabularize /|', 'align |']
+  let g:lmap.b.a['='] = [ 'Tabularize / = ', 'align = ']
+  let g:lmap.b.a[':'] = [ 'Tabularize /:', 'align :']
+  let g:lmap.b.a[','] = [ 'Tabularize /,', 'align ,']
 " }}}
 
 augroup BfrWinAutocmd "{{{

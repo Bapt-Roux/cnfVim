@@ -64,6 +64,7 @@ endfunction "}}}
 let g:nvim_path_separator='/'
 let g:nvim_dir= '~' . g:nvim_path_separator . '.cnfVim' 
 let g:cache_dir = g:nvim_dir . g:nvim_path_separator . 'cache'
+let g:wiki_dir = g:nvim_dir . g:nvim_path_separator . 'vimwiki'
 " }}}
 
 " Base configuration {{{
@@ -92,11 +93,12 @@ let g:cnf_nvim.layers = [
     \ 'tabsMgmt',
     \ 'bfrWinMgmt',
     \ 'statusLine',
-    \'nerdcommenter_wrper']
+    \ 'workflow']
+    " \'nerdcommenter_wrper',
 
 let g:cnf_nvim.extra_plugins = [
+  \'tpope/vim-commentary',
   \'tpope/vim-fugitive']
-  " \'tpope/vim-commentary',
 "}}}
 
 " Function hooks to tweak startup process {{{
@@ -200,6 +202,7 @@ function! init#AfterAll_hook() "{{{
   let &directory = init#NvimGetCacheDir('swap')
   set noswapfile
 
+  call init#EnsureExists(g:wiki_dir)
   call init#EnsureExists(g:cache_dir)
   call init#EnsureExists(&undodir)
   call init#EnsureExists(&backupdir)
