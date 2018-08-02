@@ -107,10 +107,11 @@ endfunction " }}}
   let g:lmap.t.u = ['call tabsMgmt#UpdtAllTab()', 'updtAll-tab']
   let g:lmap.t.n = ['tabnew', 'new-tab']
   let g:lmap.t.h = ['-tabmove', 'mv-tab-left']
-  let g:lmap.t.h = ['+tabmove', 'mv-tab-right']
+  let g:lmap.t.l = ['tabmove', 'mv-tab-right']
   let g:lmap.t.t = ['call tabsMgmt#OpenTabTerm()', 'open-term']
   let g:lmap.t.z = ['call tabsMgmt#ToggleZoom()', 'zoom-toggle']
   let g:lmap.t['<C-I>'] = ['call tabsMgmt#ToggleTab()', 'toggle-tab']
+  let g:lmap.t.c = ['tabclose', 'close-tab']
 " }}}
 
 augroup tabsMgmtAutocmd "{{{

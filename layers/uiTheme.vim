@@ -1,8 +1,10 @@
 " Core-theme load UI theme{{{
+call dein#add('tomasr/molokai')
+call dein#add('altercation/vim-colors-solarized')
+call dein#add('liuchengxu/space-vim-dark')
 
 " UI theme function {{{
 function! uiTheme#initMolokai() "{{{
-    call dein#add('tomasr/molokai')
     let g:molokai_original = 1
     colorscheme molokai
     set background=dark
@@ -13,7 +15,6 @@ function! uiTheme#initMolokai() "{{{
 endfunction "}}}
 
 function! uiTheme#initSolarized() "{{{
-    call dein#add('altercation/vim-colors-solarized')
     " 16 color palette is recommended
     " <https://github.com/altercation/vim-colors-solarized>
     if g:cnf_nvim.force256 == 1
@@ -49,7 +50,6 @@ function! uiTheme#initSolarized() "{{{
 endfunction "}}}
 
 function! uiTheme#initSpaceVim() "{{{
-    call dein#add('liuchengxu/space-vim-dark')
     colorscheme space-vim-dark
     let g:space_vim_dark_background = 234
     hi Comment cterm=italic

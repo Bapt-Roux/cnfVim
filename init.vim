@@ -80,7 +80,7 @@ let g:llmap = {}
 " Users knobs {{{
 let g:cnf_nvim.default_indent = 2
 let g:cnf_nvim.colorscheme = 'spaceVim' "'spaceVim' 'molokai' 'solarized'
-let g:cnf_nvim.force256 = 0
+let g:cnf_nvim.force256 = 1
 let g:cnf_nvim.termtrans = 0
 let g:cnf_nvim.max_column = 80
 let g:cnf_nvim.enable_cursorcolumn = 1
@@ -88,17 +88,8 @@ let g:cnf_nvim.powerline_fonts = 0
 let g:cnf_nvim.nerd_fonts = 0
 " }}}
 
-let g:cnf_nvim.layers = [ 
-    \ 'uiTheme',
-    \ 'tabsMgmt',
-    \ 'bfrWinMgmt',
-    \ 'statusLine',
-    \ 'workflow']
-    " \'nerdcommenter_wrper',
-
-let g:cnf_nvim.extra_plugins = [
-  \'tpope/vim-commentary',
-  \'tpope/vim-fugitive']
+let g:cnf_nvim.layers = ['uiTheme', 'tabsMgmt', 'bfrWinMgmt', 'statusLine', 'workflow']
+let g:cnf_nvim.extra_plugins = ['tpope/vim-commentary', 'tpope/vim-fugitive']
 "}}}
 
 " Function hooks to tweak startup process {{{
@@ -265,25 +256,27 @@ call init#BeforeAll_hook()
   call dein#add(init#NvimGetDir('layers') . g:nvim_path_separator . 'dein.vim')
   "}}}
   " vim-leader setup {{{
-  call dein#add('taohex/vim-leader-guide')
-  let g:leaderDict = {}
-  let g:leaderDict[' '] = g:lmap
-  let g:leaderDict[' ']['name'] = '<Leader>'
-  let g:leaderDict[','] = g:llmap
-  let g:leaderDict[',']['name'] = '<LocalLeader>'
-  call leaderGuide#register_prefix_descriptions("", "g:leaderDict")
-  let g:leaderGuide_displayfunc = [function("init#LeaderDsp")]
-  " Position Bottom
-  let g:leaderGuide_vertical = 0
-  let g:leaderGuide_position = 'botright'
-  " Master leaderGuide shortcuts
-  nnoremap <silent><nowait> <Leader> :<C-u>LeaderGuide '<Space>'<CR>
-  vnoremap <silent><nowait> <Leader> :<C-u>LeaderGuideVisual '<Space>'<CR>
-  map <Leader>. <Plug>leaderguide-global
-  " Local leaderGuide shortcuts
-  nnoremap <silent><nowait> <LocalLeader> :<C-u>LeaderGuide  ','<CR>
-  vnoremap <silent><nowait> <LocalLeader> :<C-u>LeaderGuideVisual  ','<CR>
-  map <LocalLeader>. <Plug>leaderguide-buffer
+  if has('nvim')
+    call dein#add('taohex/vim-leader-guide')
+    let g:leaderDict = {}
+    let g:leaderDict[' '] = g:lmap
+    let g:leaderDict[' ']['name'] = '<Leader>'
+    let g:leaderDict[','] = g:llmap
+    let g:leaderDict[',']['name'] = '<LocalLeader>'
+    call leaderGuide#register_prefix_descriptions("", "g:leaderDict")
+    let g:leaderGuide_displayfunc = [function("init#LeaderDsp")]
+    " Position Bottom
+    let g:leaderGuide_vertical = 0
+    let g:leaderGuide_position = 'botright'
+    " Master leaderGuide shortcuts
+    nnoremap <silent><nowait> <Leader> :<C-u>LeaderGuide '<Space>'<CR>
+    vnoremap <silent><nowait> <Leader> :<C-u>LeaderGuideVisual '<Space>'<CR>
+    map <Leader>. <Plug>leaderguide-global
+    " Local leaderGuide shortcuts
+    nnoremap <silent><nowait> <LocalLeader> :<C-u>LeaderGuide  ','<CR>
+    vnoremap <silent><nowait> <LocalLeader> :<C-u>LeaderGuideVisual  ','<CR>
+    map <LocalLeader>. <Plug>leaderguide-buffer
+  endif
   "}}}
 " }}}
 

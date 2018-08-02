@@ -44,7 +44,7 @@ endfunction "}}}
   let g:lmap.b.t      = ['TagbarToggle', 'tagbar-toggle']
   let g:lmap.b.a      = { 'name' : '+Align'}
   let g:lmap.b.a['|'] = [ 'Tabularize /|', 'align |']
-  let g:lmap.b.a['='] = [ 'Tabularize / = ', 'align = ']
+  let g:lmap.b.a['='] = [ 'Tabularize /= ', 'align = ']
   let g:lmap.b.a[':'] = [ 'Tabularize /:', 'align :']
   let g:lmap.b.a[','] = [ 'Tabularize /,', 'align ,']
 " }}}
@@ -64,7 +64,9 @@ autocmd VimEnter * if !empty($NVIM_LISTEN_ADDRESS) && $NVIM_LISTEN_ADDRESS !=# v
   \ |endif
 
 " turn numbers on for normal buffers; turn them off for terminal buffers
-autocmd TermOpen,BufWinEnter * call bfrWinMgmt#SetNumberDisplay()
+if has('nvim')
+  autocmd TermOpen,BufWinEnter * call bfrWinMgmt#SetNumberDisplay()
+endif
 "}}}
 augroup END
 " }}}
