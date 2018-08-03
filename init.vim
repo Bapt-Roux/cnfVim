@@ -62,7 +62,7 @@ endfunction "}}}
 
 " Init path configuration {{{
 let g:nvim_path_separator='/'
-let g:nvim_dir= '~' . g:nvim_path_separator . '.cnfVim' 
+let g:nvim_dir= '~' . g:nvim_path_separator . '.cnfLnx/cnfVim' 
 let g:cache_dir = g:nvim_dir . g:nvim_path_separator . 'cache'
 let g:wiki_dir = g:nvim_dir . g:nvim_path_separator . 'vimwiki'
 " }}}
