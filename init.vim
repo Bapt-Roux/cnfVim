@@ -64,7 +64,7 @@ endfunction "}}}
 let g:nvim_path_separator='/'
 let g:nvim_dir= '~' . g:nvim_path_separator . '.cnfLnx/cnfVim' 
 let g:cache_dir = g:nvim_dir . g:nvim_path_separator . 'cache'
-let g:wiki_dir = g:nvim_dir . g:nvim_path_separator . 'vimwiki'
+let g:wiki_dir = '~/vimwiki'
 " }}}
 
 " Base configuration {{{
@@ -89,7 +89,7 @@ let g:cnf_nvim.nerd_fonts = 0
 " }}}
 
 let g:cnf_nvim.layers = ['uiTheme', 'tabsMgmt', 'bfrWinMgmt', 'statusLine', 'workflow']
-let g:cnf_nvim.extra_plugins = ['tpope/vim-commentary', 'tpope/vim-fugitive']
+let g:cnf_nvim.extra_plugins = ['tpope/vim-commentary', 'tpope/vim-fugitive', 'chrisbra/csv.vim']
 "}}}
 
 " Function hooks to tweak startup process {{{
@@ -257,7 +257,7 @@ call init#BeforeAll_hook()
   "}}}
   " vim-leader setup {{{
   if has('nvim')
-    call dein#add('taohex/vim-leader-guide')
+    call dein#add('hecal3/vim-leader-guide')
     let g:leaderDict = {}
     let g:leaderDict[' '] = g:lmap
     let g:leaderDict[' ']['name'] = '<Leader>'
